@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>VisualByte - Nature-Inspired Java DSA Visualizer</title>
+  <meta name="description" content="An interactive, calm, nature-inspired visual encyclopedia and simulator for all Java DSA and OOP topics. Learn with real-world analogies and animations.">
+  
+  <!-- Favicon -->
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 24 24%22 fill=%22%232d7d32%22><path d=%22M17,8C8,10 5.9,16.17 3.82,21.34C5.71,20.5 7.6,19.34 9.5,18C13,15.5 14.4,12.5 17,8M12,2C11.5,3.5 12,5.5 11,7C10.1,8.5 7.5,9.5 7,11.5C6.5,13.5 8,17.5C11.5,16.5 13,13.5 15,11.5C17,9.5 19.5,7.5 20,5.5C20.5,3.5 18.5,3.5 18.5,1.5C15.5,1.5 13.5,2 12,2Z%22/></svg>">
+  
+  <!-- CSS Stylesheet -->
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <div class="app-container">
+    
+    <!-- Navigation Bar -->
+    <header class="navbar" id="app-navbar">
+      <div class="nav-brand">
+        <!-- Leaf Silhouette SVG Logo -->
+        <svg class="nav-logo-svg" viewBox="0 0 24 24">
+          <path d="M17,8C8,10 5.9,16.17 3.82,21.34C5.71,20.5 7.6,19.34 9.5,18C13,15.5 14.4,12.5 17,8M12,2C11.5,3.5 12,5.5 11,7C10.1,8.5 7.5,9.5 7,11.5C6.5,13.5 8,15.5 8,17.5C11.5,16.5 13,13.5 15,11.5C17,9.5 19.5,7.5 20,5.5C20.5,3.5 18.5,3.5 18.5,1.5C15.5,1.5 13.5,2 12,2Z"/>
+        </svg>
+        <span class="nav-title">VisualByte</span>
+      </div>
+      <nav class="nav-links">
+        <button class="nav-btn active" id="tab-btn-explorer" onclick="switchView('explorer')">Visual Explorer</button>
+        <button class="nav-btn" id="tab-btn-playground" onclick="switchView('playground')">Analogy Playground</button>
+        <button class="nav-btn" id="tab-btn-cheatsheet" onclick="switchView('cheatsheet')">Revision Cheatsheet</button>
+      </nav>
+    </header>
+
+    <!-- Hero / Welcome Banner -->
+    <section class="hero">
+      <div class="hero-content">
+        <p class="hero-tag label">A calm workspace for scholarly computer science</p>
+        <h1 class="hero-title">Visual Java & Data Structures</h1>
+        <p class="hero-desc">
+          Explore all core Java features, object-oriented concepts, and algorithmic data structures with real-world analogies, clean visualizations, and interactive playgrounds.
+        </p>
+        
+        <!-- Search bar -->
+        <div class="search-box-container">
+          <input type="text" id="main-search-input" class="search-input" placeholder="Search topics (e.g. Kadane, Linked List, Constructor, recursion)..." onkeyup="handleSearch(event)">
+        </div>
+      </div>
+    </section>
+
+    <!-- TAB 1: Visual Explorer Dashboard -->
+    <main class="dashboard" id="view-explorer">
+      
+      <!-- Left sidebar directory -->
+      <aside class="sidebar">
+        <div class="sidebar-card">
+          <h3 class="category-title">Topic Directory</h3>
+          
+          <div id="directory-container">
+            <!-- Will be populated dynamically by app.js -->
+          </div>
+        </div>
+
+        <!-- AI Tutor Panel (Exclusively proxies queries safely to Vercel Backend) -->
+        <div class="ai-tutor-container">
+          <div class="tutor-header">
+            <svg style="width:20px;height:20px;fill:currentColor;" viewBox="0 0 24 24">
+              <path d="M12 2A10 10 0 0 0 2 12A10 10 0 0 0 12 22A10 10 0 0 0 22 12A10 10 0 0 0 12 2M12 4A2 2 0 0 1 14 6A2 2 0 0 1 12 8A2 2 0 0 1 10 6A2 2 0 0 1 12 4M12 18A6 6 0 0 1 6 12A6 6 0 0 1 12 6A6 6 0 0 1 18 12A6 6 0 0 1 12 18Z"/>
+            </svg>
+            <h4 class="label" style="font-size: 14px;">Java AI Scholar Tutor</h4>
+          </div>
+          <div class="chat-messages" id="chat-messages-box">
+            <div class="chat-msg bot">
+              Welcome! I can help you compile, debug, or understand this topic's Java implementation. Questions will be answered securely by Gemini!
+            </div>
+          </div>
+          <div class="chat-input-row">
+            <input type="text" id="tutor-chat-input" class="chat-input" placeholder="Ask a question about the active Java topic..." onkeydown="if(event.key==='Enter') sendTutorMessage()">
+            <button class="chat-send-btn" onclick="sendTutorMessage()">Ask</button>
+          </div>
+        </div>
+      </aside>
+
+      <!-- Right Main Content Feed -->
+      <section class="main-view" id="main-topic-feed">
+        <!-- Active Topic Details - Rendered dynamically via app.js -->
+        <div class="content-card animate-slide" id="active-topic-container">
+          <!-- Populated by app.js -->
+        </div>
+      </section>
+
+    </main>
+
+    <!-- TAB 2: Analogy Playground (Unified Full-Width Mind Map Flowchart) -->
+    <main class="dashboard" id="view-playground" style="display: none; justify-content: center;">
+      
+      <!-- Full-Width interactive map feed -->
+      <section class="main-view" style="max-width:1200px; width:100%;">
+        <div class="content-card accent">
+          <div class="topic-header-flex">
+            <h2 class="topic-title-h2">Java DSA Global Concept Map</h2>
+            <span class="topic-category-tag label" style="background:var(--spring-meadow);">Unified Flowchart</span>
+          </div>
+          
+          <h3 class="analogy-title-h3" style="color:var(--sunset-amber); margin-bottom:var(--space-1.5);">
+            <svg style="width:20px;height:20px;fill:currentColor;" viewBox="0 0 24 24">
+              <path d="M9 20C9 21.1 8.1 22 7 22S5 21.1 5 20 5.9 18 7 18 9 18.9 9 20M17 18C15.9 18 15 18.9 15 20S15.9 22 17 22 19 21.1 19 20 18.1 18 17 18M20 4H4v2h16V4M4 8h16v10H4V8z"/>
+            </svg>
+            Interactive Concept Flow-Chart
+          </h3>
+          <p class="analogy-text" style="font-size: 15px; margin-bottom:var(--space-2);">
+            Explore all 18 topics and their relations in one place. Hover over a node or connector path to inspect real-world analogies. <strong>Click any element to instantly navigate to its code and visual simulator in the Explorer tab!</strong>
+          </p>
+
+          <!-- SVG Visual Analogy Flowchart Box -->
+          <div style="position: relative; width: 100%;">
+            <div class="viz-display-box" id="playground-svg-canvas" style="background:var(--bg-white); padding:0; overflow:hidden; min-height:550px;">
+              <!-- Flowchart SVG populated dynamically by app.js -->
+            </div>
+            
+            <!-- Floating Zoom Overlay -->
+            <div class="zoom-controls-overlay" style="position: absolute; top: 16px; right: 16px; display: flex; flex-direction: column; gap: 8px; z-index: 50;">
+              <button class="zoom-overlay-btn" onclick="zoomInMap()" style="width:36px; height:36px; background:#fff; border:2px solid var(--forest-canopy); color:var(--forest-canopy); border-radius:50%; font-family:'Anton',sans-serif; font-size:20px; cursor:pointer; display:flex; align-items:center; justify-content:center; box-shadow:0 2px 6px rgba(0,0,0,0.15); font-weight:bold; transition:all 0.2s ease;">+</button>
+              <button class="zoom-overlay-btn" onclick="zoomOutMap()" style="width:36px; height:36px; background:#fff; border:2px solid var(--forest-canopy); color:var(--forest-canopy); border-radius:50%; font-family:'Anton',sans-serif; font-size:20px; cursor:pointer; display:flex; align-items:center; justify-content:center; box-shadow:0 2px 6px rgba(0,0,0,0.15); font-weight:bold; transition:all 0.2s ease;">-</button>
+            </div>
+          </div>
+
+          <!-- Dynamic Hover detail box -->
+          <div class="content-card" style="margin-top:var(--space-2); background:var(--morning-mist); border: 2px dashed var(--spring-meadow);">
+            <div id="hover-details-content">
+              <span class="label" style="font-size:12px; color:var(--forest-canopy); display:block; margin-bottom:4px;">Flowchart Concept Details</span>
+              <h4 id="hover-element-title" style="font-size:18px; margin-bottom:8px;">Hover over any flowchart node or connector line above...</h4>
+              <p id="hover-element-desc" style="font-family:'Marcellus', serif; font-size:15px; color:#555;">
+                Inspect how DSA topics, Core Java principles, and OOP concepts connect with each other. Click to open details.
+              </p>
+            </div>
+          </div>
+
+        </div>
+      </section>
+
+    </main>
+
+    <!-- TAB 3: Revision Cheatsheet View -->
+    <main class="cheatsheet-view" id="view-cheatsheet" style="display: none;">
+      <h2 style="font-size:32px; border-bottom: 2px solid var(--spring-meadow); padding-bottom:var(--space-1); margin-bottom:var(--space-2);">Revision Cheatsheet</h2>
+      <p style="margin-bottom:var(--space-2); font-size:16px;">Quickly browse syntax blueprints and memory aids for all topics to revise before coding.</p>
+      
+      <div class="cheatsheet-grid" id="cheatsheet-cards-container">
+        <!-- Populated by app.js -->
+      </div>
+    </main>
+
+  </div>
+
+  <!-- JavaScript imports -->
+  <script src="data.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
