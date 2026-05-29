@@ -20,14 +20,12 @@ setInterval(() => {
 export default async function handler(req, res) {
   // CORS Lock - Origins Allowlist
   const allowedOrigins = [
-    "https://visualbyte.vercel.app", // Your Production Domain
-    "http://localhost:3000",         // Local Node dev port
-    "http://localhost:5173",         // Vite standard local port
-    "http://localhost:8080",         // Alternative local port
-    "http://127.0.0.1:3000",
-    "http://127.0.0.1:5173",
-    "http://127.0.0.1:8080"
-  ];
+  "https://visual-byte.vercel.app",
+  "https://visualbyte.vercel.app",
+  "http://localhost:3000",
+  "http://localhost:5173",
+  "http://localhost:8080"
+];
 
   const origin = req.headers.origin;
   let isAllowed = false;
