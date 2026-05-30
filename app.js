@@ -1832,7 +1832,8 @@ User Question: ${query}`;
     });
 
     if (!res.ok) {
-      throw new Error("Tutor backend offline. Please configure Vercel's GEMINI_API_KEY environment variable!");
+      const text = await res.text();
+      throw new Error(`HTTP ${res.status}: ${text}`);
     }
 
     const data = await res.json();
